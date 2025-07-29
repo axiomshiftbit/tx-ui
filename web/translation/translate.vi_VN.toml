@@ -212,6 +212,7 @@
 
 [pages.inbounds.toasts]
 "obtain" = "Nhận"
+"getNewmldsa65Error" = "Lỗi khi lấy chúng tôi mldsa65."
 
 [pages.inbounds.stream.general]
 "request" = "Lời yêu cầu"

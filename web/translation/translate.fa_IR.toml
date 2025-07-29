@@ -213,6 +213,7 @@
 
 [pages.inbounds.toasts]
 "obtain" = "فراهم‌سازی"
+"getNewmldsa65Error" = "خطا در دریافت گواهی mldsa65."
 
 [pages.inbounds.stream.general]
 "request" = "درخواست"

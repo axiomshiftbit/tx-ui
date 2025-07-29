@@ -50,11 +50,21 @@ func (a *ServerController) initRouter(g *gin.RouterGroup) {
 	g.GET("/getDb", a.getDb)
 	g.POST("/importDB", a.importDB)
 	g.POST("/getNewX25519Cert", a.getNewX25519Cert)
+	g.POST("/getNewmldsa65", a.getNewmldsa65)
 	g.POST("/setTunnel/:ip/:port/:user/:password", a.setTunnel)
 }
 
 func (a *ServerController) refreshStatus() {
 	a.lastStatus = a.serverService.GetStatus(a.lastStatus)
+}
+
+func (a *ServerController) getNewmldsa65(c *gin.Context) {
+	cert, err := a.serverService.GetNewmldsa65()
+	if err != nil {
+		jsonMsg(c, I18nWeb(c, "pages.inbounds.toasts.getNewmldsa65Error"), err)
+		return
+	}
+	jsonObj(c, cert, nil)
 }
 
 func (a *ServerController) startTask() {
@@ -125,7 +135,7 @@ func (a *ServerController) installPanel(c *gin.Context) {
 }
 
 func (a *ServerController) setTunnel(c *gin.Context) {
-	a.serverService.ApplyTunnel(c.Param("ip"),c.Param("port"), c.Param("user"), c.Param("password"))
+	a.serverService.ApplyTunnel(c.Param("ip"), c.Param("port"), c.Param("user"), c.Param("password"))
 	jsonMsg(c, I18nWeb(c, "pages.xray.tunnel.applied"), nil)
 }
 
