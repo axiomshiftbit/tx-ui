@@ -725,8 +725,8 @@ class RealityStreamSettings extends XrayCommonClass {
     constructor(
         show = false,
         xver = 0,
-        dest = 'yahoo.com:443',
-        serverNames = 'yahoo.com,www.yahoo.com',
+        dest = 'google.com:443',
+        serverNames = 'google.com,www.google.com',
         privateKey = '',
         minClientVer = '',
         maxClientVer = '',
