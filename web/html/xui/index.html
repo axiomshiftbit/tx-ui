@@ -132,6 +132,7 @@
                 <a-card hoverable>
                   <b>{{ i18n "menu.link" }}:</b>
                   <a-tag color="purple" style="cursor: pointer;" @click="openLogs()">{{ i18n "pages.index.logs" }}</a-tag>
+                  <a-tag color="purple" style="cursor: pointer;" @click="openXrayLogs()">Access Logs</a-tag>
                   <a-tag color="purple" style="cursor: pointer;" @click="openConfig">{{ i18n "pages.index.config" }}</a-tag>
                   <a-tag color="purple" style="cursor: pointer;" @click="openBackup">{{ i18n "pages.index.backup" }}</a-tag>
                 </a-card>
@@ -329,6 +330,40 @@
       </a-form>
       <div class="ant-input" style="height: auto; max-height: 500px; overflow: auto; margin-top: 0.5rem;" v-html="logModal.formattedLogs"></div>
     </a-modal>
+    <a-modal id="xraylog-modal"
+             v-model="xraylogModal.visible"
+             :closable="true" @cancel="() => xraylogModal.visible = false"
+             :class="themeSwitcher.currentTheme"
+             width="80vw"
+             footer="">
+      <template slot="title">
+        {{ i18n "pages.index.logs" }}
+        <a-icon :spin="xraylogModal.loading"
+                type="sync"
+                :style="{ verticalAlign: 'middle', marginLeft: '10px' }"
+                :disabled="xraylogModal.loading"
+                @click="openXrayLogs()">
+        </a-icon>
+      </template>
+      <a-form layout="inline">
+        <a-form-item :style="{ marginRight: '0.5rem' }">
+          <a-input-group compact>
+            <a-select size="small" v-model="xraylogModal.rows" :style="{ width: '70px' }"
+                      @change="openXrayLogs()" :dropdown-class-name="themeSwitcher.currentTheme">
+              <a-select-option value="10">10</a-select-option>
+              <a-select-option value="20">20</a-select-option>
+              <a-select-option value="50">50</a-select-option>
+              <a-select-option value="100">100</a-select-option>
+              <a-select-option value="500">500</a-select-option>
+            </a-select>
+          </a-input-group>
+        </a-form-item>
+        <a-form-item :style="{ float: 'right' }">
+          <a-button type="primary" icon="download" @click="FileManager.downloadTextFile(xraylogModal.logs?.join('\n'), 'x-ui.log')"></a-button>
+        </a-form-item>
+      </a-form>
+      <div class="ant-input" :style="{ height: 'auto', maxHeight: '500px', overflow: 'auto', marginTop: '0.5rem' }" v-html="xraylogModal.formattedLogs"></div>
+    </a-modal>
     <a-modal id="backup-modal" v-model="backupModal.visible" :title="backupModal.title"
         :closable="true" footer=""
         :class="themeSwitcher.currentTheme">
@@ -507,6 +542,57 @@
         },
     };
 
+    const xraylogModal = {
+      visible: false,
+      logs: [],
+      rows: 20,
+      loading: false,
+      show(logs) {
+        this.visible = true;
+        this.logs = logs;
+        this.formattedLogs = this.logs?.length > 0 ? this.formatLogs(this.logs) : "No Record...";
+      },
+      formatLogs(logs) {
+        let formattedLogs = '';
+
+        logs.forEach((log, index) => {
+          if(index > 0) formattedLogs += '<br>';
+
+          const parts = log.split(' ');
+
+          if(parts.length === 9) {
+            const dateTime = `<b>${parts[0]} ${parts[1]}</b>`;
+            const from = `<b>${parts[3]}</b>`;
+            const to = `<b>${parts[5].replace(/^\/+/, "")}</b>`;
+
+            let outboundColor = '';
+            if (parts[8].startsWith('blocked')) {
+              outboundColor = ' style="color: #e04141;"';
+            }
+            else if (!parts[8].startsWith('direct')) {
+              outboundColor = ' style="color: #3c89e8;"';
+            }
+
+            formattedLogs += `<span${outboundColor}>
+${dateTime}
+ ${parts[2]}
+ ${from}
+ ${parts[4]}
+ ${to}
+ ${parts.slice(6).join(' ')}
+</span>`;
+          } else {
+            formattedLogs += `<span>${parts.join(' ')}</span>`;
+          }
+        });
+
+        return formattedLogs;
+      },
+      hide() {
+        this.visible = false;
+      },
+    };
+
     const backupModal = {
         visible: false,
         title: '',
@@ -539,10 +625,13 @@
             status: new Status(),
             versionModal,
             logModal,
+            xraylogModal,
             backupModal,
             spinning: false,
             loadingTip: '{{ i18n "loading"}}',
             showAlert: false,
+            showIp: false,
+            ipLimitEnable: false,
         },
         methods: {
             loading(spinning, tip = '{{ i18n "loading"}}') {
@@ -623,6 +712,16 @@
                 await PromiseUtil.sleep(500);
                 logModal.loading = false;
             },
+            async openXrayLogs(){
+              xraylogModal.loading = true;
+              const msg = await HttpUtil.post('server/xraylogs/'+xraylogModal.rows);
+              if (!msg.success) {
+                return;
+              }
+              xraylogModal.show(msg.obj);
+              await PromiseUtil.sleep(500);
+              xraylogModal.loading = false;
+            },
             async openConfig() {
                 this.loading(true);
                 const msg = await HttpUtil.post('server/getConfigJson');
@@ -680,6 +779,12 @@
             if (window.location.protocol !== "https:") {
                 this.showAlert = true;
             }
+
+            const msg = await HttpUtil.post('/panel/setting/defaultSettings');
+            if (msg.success) {
+              this.ipLimitEnable = msg.obj.ipLimitEnable;
+            }
+
             while (true) {
                 try {
                     await this.getStatus();
