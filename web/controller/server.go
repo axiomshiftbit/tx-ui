@@ -51,6 +51,7 @@ func (a *ServerController) initRouter(g *gin.RouterGroup) {
 	g.POST("/importDB", a.importDB)
 	g.POST("/getNewX25519Cert", a.getNewX25519Cert)
 	g.POST("/getNewmldsa65", a.getNewmldsa65)
+	g.POST("/getNewEchCert", a.getNewEchCert)
 	g.POST("/setTunnel/:ip/:port/:user/:password", a.setTunnel)
 }
 
@@ -209,6 +210,15 @@ func (a *ServerController) getNewX25519Cert(c *gin.Context) {
 	cert, err := a.serverService.GetNewX25519Cert()
 	if err != nil {
 		jsonMsg(c, "get x25519 certificate", err)
+		return
+	}
+	jsonObj(c, cert, nil)
+}
+func (a *ServerController) getNewEchCert(c *gin.Context) {
+	sni := c.PostForm("sni")
+	cert, err := a.serverService.GetNewEchCert(sni)
+	if err != nil {
+		jsonMsg(c, "get ech certificate", err)
 		return
 	}
 	jsonObj(c, cert, nil)
