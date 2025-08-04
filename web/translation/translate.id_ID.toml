@@ -127,6 +127,7 @@
 "remark" = "Catatan"
 "protocol" = "Protokol"
 "port" = "Port"
+"portMap" = "Port Mapping"
 "traffic" = "Traffic"
 "details" = "Rincian"
 "transportConfig" = "Transport"

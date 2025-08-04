@@ -127,6 +127,7 @@
 "remark" = "Примітка"
 "protocol" = "Протокол"
 "port" = "Порт"
+"portMap" = "Порт-перехід"
 "traffic" = "Трафік"
 "details" = "Деталі"
 "transportConfig" = "Транспорт"
