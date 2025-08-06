@@ -15,7 +15,7 @@ var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Migrate database from other/old x-ui",
 	Run: func(cmd *cobra.Command, args []string) {
-		migrateDb()
+		MigrateDb()
 	},
 }
 
@@ -23,7 +23,7 @@ func init() {
 	rootCmd.AddCommand(migrateCmd)
 }
 
-func migrateDb() {
+func MigrateDb() {
 	inboundService := service.InboundService{}
 
 	err := database.InitDB(config.GetDBPath())

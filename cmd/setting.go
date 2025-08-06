@@ -62,12 +62,12 @@ func init() {
 
 	settingCmd.Run = func(cmd *cobra.Command, args []string) {
 		if reset {
-			resetSetting()
+			ResetSetting()
 		} else {
-			updateSetting(port, username, password, webBasePath, listenIP)
+			UpdateSetting(port, username, password, webBasePath, listenIP)
 		}
 		if show {
-			showSetting(show)
+			ShowSetting(show)
 		}
 		if getListen {
 			GetListenIP(getListen)
@@ -76,18 +76,18 @@ func init() {
 			GetCertificate(getCert)
 		}
 		if (tgbottoken != "") || (tgbotchatid != "") || (tgbotRuntime != "") {
-			updateTgbotSetting(tgbottoken, tgbotchatid, tgbotRuntime)
+			UpdateTgbotSetting(tgbottoken, tgbotchatid, tgbotRuntime)
 		}
 		if remove_secret {
-			removeSecret()
+			RemoveSecret()
 		}
 		if enabletgbot {
-			updateTgbotEnableSts(enabletgbot)
+			UpdateTgbotEnableSts(enabletgbot)
 		}
 	}
 }
 
-func resetSetting() {
+func ResetSetting() {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
 		fmt.Println("Failed to initialize database:", err)
@@ -103,7 +103,7 @@ func resetSetting() {
 	}
 }
 
-func showSetting(show bool) {
+func ShowSetting(show bool) {
 	if show {
 		settingService := service.SettingService{}
 		port, err := settingService.GetPort()
@@ -152,7 +152,7 @@ func showSetting(show bool) {
 	}
 }
 
-func updateTgbotEnableSts(status bool) {
+func UpdateTgbotEnableSts(status bool) {
 	settingService := service.SettingService{}
 	currentTgSts, err := settingService.GetTgbotEnabled()
 	if err != nil {
@@ -171,7 +171,7 @@ func updateTgbotEnableSts(status bool) {
 	}
 }
 
-func updateTgbotSetting(tgBotToken string, tgBotChatid string, tgBotRuntime string) {
+func UpdateTgbotSetting(tgBotToken string, tgBotChatid string, tgBotRuntime string) {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
 		fmt.Println("Error initializing database:", err)
@@ -208,7 +208,7 @@ func updateTgbotSetting(tgBotToken string, tgBotChatid string, tgBotRuntime stri
 	}
 }
 
-func updateSetting(port int, username string, password string, webBasePath string, listenIP string) {
+func UpdateSetting(port int, username string, password string, webBasePath string, listenIP string) {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
 		fmt.Println("Database initialization failed:", err)
@@ -286,7 +286,7 @@ func GetListenIP(getListen bool) {
 	}
 }
 
-func removeSecret() {
+func RemoveSecret() {
 	userService := service.UserService{}
 
 	secretExists, err := userService.CheckSecretExistence()

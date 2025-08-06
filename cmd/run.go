@@ -22,7 +22,7 @@ var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Run the web panel",
 	Run: func(cmd *cobra.Command, args []string) {
-		runWebServer()
+		RunWebServer()
 	},
 }
 
@@ -30,7 +30,7 @@ func init() {
 	rootCmd.AddCommand(runCmd)
 }
 
-func runWebServer() {
+func RunWebServer() {
 	log.Printf("Starting %v %v", config.GetName(), config.GetVersion())
 
 	switch config.GetLogLevel() {

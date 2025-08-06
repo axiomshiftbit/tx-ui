@@ -27,14 +27,14 @@ func init() {
 
 	certCmd.Run = func(cmd *cobra.Command, args []string) {
 		if reset {
-			updateCert("", "")
+			UpdateCert("", "")
 		} else {
-			updateCert(webCertFile, webKeyFile)
+			UpdateCert(webCertFile, webKeyFile)
 		}
 	}
 }
 
-func updateCert(publicKey string, privateKey string) {
+func UpdateCert(publicKey string, privateKey string) {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
 		fmt.Println(err)
