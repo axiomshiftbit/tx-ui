@@ -194,5 +194,5 @@ func formatBytes(sizeStr string, precision int) string {
 	suffixes := []string{"B", "K", "M", "G", "T"}
 
 	value := math.Pow(1024, base-math.Floor(base))
-	return fmt.Sprintf("%% .*f %%s", precision, value, suffixes[int(math.Floor(base))])
+	return fmt.Sprintf("%.*f %s", precision, value, suffixes[int(math.Floor(base))])
 }
