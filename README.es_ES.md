@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-**Un Panel Web Avanzado • Construido sobre Xray Core** \
+**Un Panel Web Avanzado • Construido sobre Xray Core** \ 
 **Este proyecto es una bifurcación del panel 3x-ui.**
 
 [![](https://img.shields.io/github/v/release/AghayeCoder/tx-ui.svg)](https://github.com/AghayeCoder/tx-ui/releases)
@@ -71,7 +71,7 @@ solicitar un certificado, necesitas lo siguiente:
 2. Visita el enlace: [Tokens de API de Cloudflare](https://dash.cloudflare.com/profile/api-tokens).
 3. Haz clic en "Ver Clave API Global" (consulta la captura de pantalla a continuación):
    ![](media/APIKey1.PNG)
-4. Es posible que necesites volver a autenticar tu cuenta. Después de eso, se mostrará la Clave API (consulta la captura
+4. Es que necesites volver a autenticar tu cuenta. Después de eso, se mostrará la Clave API (consulta la captura
    de pantalla a continuación):
    ![](media/APIKey2.png)
 
@@ -93,13 +93,13 @@ siguiente:
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
 
@@ -112,16 +112,16 @@ wget https://github.com/AghayeCoder/tx-ui/releases/latest/download/x-ui-linux-${
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
-cd /root/
+cd /root/ 
 rm -rf x-ui/ /usr/local/x-ui/ /usr/bin/x-ui
 tar zxvf x-ui-linux-${XUI_ARCH}.tar.gz
 chmod +x x-ui/x-ui x-ui/bin/xray-linux-* x-ui/x-ui.sh
@@ -413,8 +413,8 @@ debes establecer los parámetros relacionados con el bot en el panel, que incluy
 
 **Sintaxis de referencia:**
 
-- `30 \* \* \* \* \*` - Notifica a los 30s de cada punto
-- `0 \*/10 \* \* \* \*` - Notifica en el primer segundo de cada 10 minutos
+- `30 * * * * *` - Notifica a los 30s de cada punto
+- `0 */10 * * * *` - Notifica en el primer segundo de cada 10 minutos
 - `@hourly` - Notificación por hora
 - `@daily` - Notificación diaria (00:00 de la mañana)
 - `@weekly` - Notificación semanal
@@ -485,8 +485,8 @@ administradores del bot. (Puedes ingresar más de uno, solo sepáralos con ,)
 | `POST` | `"/clientIps/:email"`              | Dirección IP del Cliente                                                             |
 | `POST` | `"/clearClientIps/:email"`         | Borrar Dirección IP del Cliente                                                      |
 | `POST` | `"/addClient"`                     | Agregar Cliente a la Entrada                                                         |
-| `POST` | `"/:id/delClient/:clientId"`       | Eliminar Cliente por clientId\*                                                      |
-| `POST` | `"/updateClient/:clientId"`        | Actualizar Cliente por clientId\*                                                    |
+| `POST` | `"/:id/delClient/:clientId"`       | Eliminar Cliente por clientId*                                                      |
+| `POST` | `"/updateClient/:clientId"`        | Actualizar Cliente por clientId*                                                    |
 | `POST` | `"/updateClientTraffic/:email"`    | Actualizar el tráfico del cliente por correo electrónico, los valores están en bytes |
 | `POST` | `"/:id/resetClientTraffic/:email"` | Restablecer Tráfico del Cliente                                                      |
 | `POST` | `"/resetAllTraffics"`              | Restablecer tráfico de todos las Entradas                                            |
@@ -496,11 +496,11 @@ administradores del bot. (Puedes ingresar más de uno, solo sepáralos con ,)
 | `POST` | `"/depleted"`                      | Obtener usuarios agotados (lista de correos electrónicos)                            |
 | `POST` | `"/disabled"`                      | Obtener usuarios desactivado (lista de correos electrónicos)                         |
 
-\*- El campo `clientId` debe llenarse por:
+*- El campo `clientId` debe llenarse por:
 
 - `client.id` para VMESS y VLESS
 - `client.password` para TROJAN
-- `client.email` para Shadowsocks \.
+- `client.email` para Shadowsocks \ .
 
 `/panel/api/server` base para las siguientes acciones:
 
@@ -521,11 +521,11 @@ administradores del bot. (Puedes ingresar más de uno, solo sepáralos con ,)
 
 | Variable       |                      Tipo                      | Predeterminado |
 |----------------|:----------------------------------------------:|:---------------|
-| XUI_LOG_LEVEL  | `"debug"` \| `"info"` \| `"warn"` \| `"error"` | `"info"`       |
+| XUI_LOG_LEVEL  | "debug" | "info" | "warn" | "error" |
 | XUI_DEBUG      |                   `boolean`                    | `false`        |
-| XUI_BIN_FOLDER |                    `string`                    | `"bin"`        |
-| XUI_DB_FOLDER  |                    `string`                    | `"/etc/x-ui"`  |
-| XUI_LOG_FOLDER |                    `string`                    | `"/var/log"`   |
+| XUI_BIN_FOLDER |                    `string`                    | "bin"        |
+| XUI_DB_FOLDER  |                    `string`                    | "/etc/x-ui"  |
+| XUI_LOG_FOLDER |                    `string`                    | "/var/log"   |
 
 Ejemplo:
 

@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-**An Advanced Web Panel • Built on Xray Core** \
+**An Advanced Web Panel • Built on Xray Core** 
 **This project is a fork of 3x-ui panel.**
 
 [![](https://img.shields.io/github/v/release/AghayeCoder/tx-ui.svg)](https://github.com/AghayeCoder/tx-ui/releases)
@@ -91,14 +91,14 @@ When using, just enter your `domain name`, `email`, and `API KEY`. The diagram i
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  s390x) echo 's390x' ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  s390x) echo 's390x' ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
 
@@ -110,17 +110,17 @@ wget https://github.com/AghayeCoder/tx-ui/releases/latest/download/x-ui-linux-${
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  s390x) echo 's390x' ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  s390x) echo 's390x' ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
-cd /root/
+cd /root/ 
 rm -rf x-ui/ /usr/local/x-ui/ /usr/bin/x-ui
 tar zxvf x-ui-linux-${XUI_ARCH}.tar.gz
 chmod +x x-ui/x-ui x-ui/bin/xray-linux-* x-ui/x-ui.sh
@@ -415,8 +415,8 @@ including:
 
 **Reference syntax:**
 
-- `30 \* \* \* \* \*` - Notify at the 30s of each point
-- `0 \*/10 \* \* \* \*` - Notify at the first second of each 10 minutes
+- `30 * * * * *` - Notify at the 30s of each point
+- `0 */10 * * * *` - Notify at the first second of each 10 minutes
 - `@hourly` - Hourly notification
 - `@daily` - Daily notification (00:00 in the morning)
 - `@weekly` - weekly notification
@@ -487,8 +487,8 @@ than one, Just separate them with ,)
 | `POST` | `"/clientIps/:email"`              | Client Ip address                                  |
 | `POST` | `"/clearClientIps/:email"`         | Clear Client Ip address                            |
 | `POST` | `"/addClient"`                     | Add Client to inbound                              |
-| `POST` | `"/:id/delClient/:clientId"`       | Delete Client by clientId\*                        |
-| `POST` | `"/updateClient/:clientId"`        | Update Client by clientId\*                        |
+| `POST` | `"/:id/delClient/:clientId"`       | Delete Client by clientId*                        |
+| `POST` | `"/updateClient/:clientId"`        | Update Client by clientId*                        |
 | `POST` | `"/updateClientTraffic/:email"`    | Update Client traffic by email,values are in bytes |
 | `POST` | `"/:id/resetClientTraffic/:email"` | Reset Client's Traffic                             |
 | `POST` | `"/resetAllTraffics"`              | Reset traffics of all inbounds                     |
@@ -498,7 +498,7 @@ than one, Just separate them with ,)
 | `POST` | `"/depleted"`                      | Get Depleted users ( list of emails )              |
 | `POST` | `"/disabled"`                      | Get Disabled users ( list of emails )              |
 
-\- The field `clientId` should be filled by:
+- The field `clientId` should be filled by:
 
 - `client.id` for VMESS and VLESS
 - `client.password` for TROJAN
@@ -524,11 +524,11 @@ than one, Just separate them with ,)
 
 | Variable       |                      Type                      | Default       |
 |----------------|:----------------------------------------------:|:--------------|
-| XUI_LOG_LEVEL  | `"debug"` \| `"info"` \| `"warn"` \| `"error"` | `"info"`      |
+| XUI_LOG_LEVEL  | "debug" | "info" | "warn" | "error" |
 | XUI_DEBUG      |                   `boolean`                    | `false`       |
-| XUI_BIN_FOLDER |                    `string`                    | `"bin"`       |
-| XUI_DB_FOLDER  |                    `string`                    | `"/etc/x-ui"` |
-| XUI_LOG_FOLDER |                    `string`                    | `"/var/log"`  |
+| XUI_BIN_FOLDER |                    `string`                    | "bin"       |
+| XUI_DB_FOLDER  |                    `string`                    | "/etc/x-ui" |
+| XUI_LOG_FOLDER |                    `string`                    | "/var/log"  |
 
 Example:
 

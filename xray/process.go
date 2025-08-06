@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"x-ui/config"
-	"x-ui/logger"
-	"x-ui/util/common"
+	"x-ui/internal/logger"
+	"x-ui/internal/util/common"
 )
 
 func GetBinaryName() string {
@@ -239,7 +239,7 @@ func (p *process) Stop() error {
 	if !p.IsRunning() {
 		return errors.New("xray is not running")
 	}
-	
+
 	if runtime.GOOS == "windows" {
 		return p.cmd.Process.Kill()
 	} else {

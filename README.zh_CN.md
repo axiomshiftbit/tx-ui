@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-**一个更好的面板 • 基于Xray Core构建** \
+**一个更好的面板 • 基于Xray Core构建** 
 **该项目是 3x-ui 面板的一个分支。**
 
 [![](https://img.shields.io/github/v/release/AghayeCoder/tx-ui.svg)](https://github.com/AghayeCoder/tx-ui/releases)
@@ -88,13 +88,13 @@ certbot renew --dry-run
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
 
@@ -106,16 +106,16 @@ wget https://github.com/AghayeCoder/tx-ui/releases/latest/download/x-ui-linux-${
 ```sh
 ARCH=$(uname -m)
 case "${ARCH}" in
-  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;;
-  i*86 | x86) XUI_ARCH="386" ;;
-  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;;
-  armv7* | armv7) XUI_ARCH="armv7" ;;
-  armv6* | armv6) XUI_ARCH="armv6" ;;
-  armv5* | armv5) XUI_ARCH="armv5" ;;
-  *) XUI_ARCH="amd64" ;;
+  x86_64 | x64 | amd64) XUI_ARCH="amd64" ;; 
+  i*86 | x86) XUI_ARCH="386" ;; 
+  armv8* | armv8 | arm64 | aarch64) XUI_ARCH="arm64" ;; 
+  armv7* | armv7) XUI_ARCH="armv7" ;; 
+  armv6* | armv6) XUI_ARCH="armv6" ;; 
+  armv5* | armv5) XUI_ARCH="armv5" ;; 
+  *) XUI_ARCH="amd64" ;; 
 esac
 
-cd /root/
+cd /root/ 
 rm -rf x-ui/ /usr/local/x-ui/ /usr/bin/x-ui
 tar zxvf x-ui-linux-${XUI_ARCH}.tar.gz
 chmod +x x-ui/x-ui x-ui/bin/xray-linux-* x-ui/x-ui.sh
@@ -324,20 +324,20 @@ location /sub {
 
 您可以直接在面板中方便地进行数据库备份和还原。
 
-- **数据库路径:**
+- **数据库路径:** 
     - `/etc/x-ui/x-ui.db`
 
 ### Web 基础路径
 
-1. **重置 Web 基础路径:**
+1. **重置 Web 基础路径:** 
     - 打开终端。
     - 运行 `x-ui` 命令。
     - 选择 `重置 Web 基础路径` 选项。
 
-2. **生成或自定义路径:**
+2. **生成或自定义路径:** 
     - 路径将会随机生成，或者您可以输入自定义路径。
 
-3. **查看当前设置:**
+3. **查看当前设置:** 
     - 要查看当前设置，请在终端中使用 `x-ui settings` 命令，或在 `x-ui` 面板中点击 `查看当前设置`。
 
 ### 安全建议：
@@ -427,8 +427,8 @@ Web 面板通过 Telegram Bot 支持每日流量、面板登录、数据库备�
 
 **参考：**
 
-- `30 \* \* \* \* \*` - 在每个点的 30 秒处通知
-- `0 \*/10 \* \* \* \*` - 每 10 分钟的第一秒通知
+- `30 * * * * *` - 在每个点的 30 秒处通知
+- `0 */10 * * * *` - 每 10 分钟的第一秒通知
 - `@hourly` - 每小时通知
 - `@daily` - 每天通知 (00:00)
 - `@weekly` - 每周通知
@@ -495,8 +495,8 @@ Web 面板通过 Telegram Bot 支持每日流量、面板登录、数据库备�
 | `POST` | `"/clientIps/:email"`              | 客户端 IP 地址             |
 | `POST` | `"/clearClientIps/:email"`         | 清除客户端 IP 地址           |
 | `POST` | `"/addClient"`                     | 将客户端添加到入站             |
-| `POST` | `"/:id/delClient/:clientId"`       | 通过 clientId\* 删除客户端   |
-| `POST` | `"/updateClient/:clientId"`        | 通过 clientId\* 更新客户端   |
+| `POST` | `"/:id/delClient/:clientId"`       | 通过 clientId* 删除客户端   |
+| `POST` | `"/updateClient/:clientId"`        | 通过 clientId* 更新客户端   |
 | `POST` | `"/updateClientTraffic/:email"`    | 通过电子邮件更新客户端流量，值以字节为单位 |
 | `POST` | `"/:id/resetClientTraffic/:email"` | 重置客户端的流量              |
 | `POST` | `"/resetAllTraffics"`              | 重置所有入站的流量             |
@@ -525,11 +525,11 @@ Web 面板通过 Telegram Bot 支持每日流量、面板登录、数据库备�
 
 | 变量             |                      Type                      | 默认            |
 |----------------|:----------------------------------------------:|:--------------|
-| XUI_LOG_LEVEL  | `"debug"` \| `"info"` \| `"warn"` \| `"error"` | `"info"`      |
+| XUI_LOG_LEVEL  | "debug" \| "info" \| "warn" \| "error" | "info"      |
 | XUI_DEBUG      |                   `boolean`                    | `false`       |
-| XUI_BIN_FOLDER |                    `string`                    | `"bin"`       |
-| XUI_DB_FOLDER  |                    `string`                    | `"/etc/x-ui"` |
-| XUI_LOG_FOLDER |                    `string`                    | `"/var/log"`  |
+| XUI_BIN_FOLDER |                    `string`                    | "bin"       |
+| XUI_DB_FOLDER  |                    `string`                    | "/etc/x-ui" |
+| XUI_LOG_FOLDER |                    `string`                    | "/var/log"  |
 
 例子：
 
