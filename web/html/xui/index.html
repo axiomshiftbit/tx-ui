@@ -132,7 +132,7 @@
                 <a-card hoverable>
                   <b>{{ i18n "menu.link" }}:</b>
                   <a-tag color="purple" style="cursor: pointer;" @click="openLogs()">{{ i18n "pages.index.logs" }}</a-tag>
-                  <a-tag color="purple" style="cursor: pointer;" @click="openXrayLogs()">Access Logs</a-tag>
+                  <a-tag color="purple" style="cursor: pointer;" @click="openXrayLogs()">Xray Logs</a-tag>
                   <a-tag color="purple" style="cursor: pointer;" @click="openConfig">{{ i18n "pages.index.config" }}</a-tag>
                   <a-tag color="purple" style="cursor: pointer;" @click="openBackup">{{ i18n "pages.index.backup" }}</a-tag>
                 </a-card>
@@ -334,7 +334,7 @@
              v-model="xraylogModal.visible"
              :closable="true" @cancel="() => xraylogModal.visible = false"
              :class="themeSwitcher.currentTheme"
-             width="80vw"
+             width="800px"
              footer="">
       <template slot="title">
         {{ i18n "pages.index.logs" }}
