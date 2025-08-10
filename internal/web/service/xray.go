@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"runtime"
 	"sync"
 
 	"x-ui/internal/logger"
@@ -15,6 +16,7 @@ var (
 	p                 *xray.Process
 	lock              sync.Mutex
 	isNeedXrayRestart atomic.Bool
+	isManuallyStopped atomic.Bool
 	result            string
 )
 
@@ -32,7 +34,15 @@ func (s *XrayService) GetXrayErr() error {
 	if p == nil {
 		return nil
 	}
-	return p.GetErr()
+	err := p.GetErr()
+
+	if runtime.GOOS == "windows" && err.Error() == "exit status 1" {
+		// exit status 1 on Windows means that Xray process was killed
+		// as we kill process to stop in on Windows, this is not an error
+		return nil
+	}
+
+	return err
 }
 
 func (s *XrayService) GetXrayResult() string {
@@ -46,6 +56,11 @@ func (s *XrayService) GetXrayResult() string {
 		return ""
 	}
 	result = p.GetResult()
+	if runtime.GOOS == "windows" && result == "exit status 1" {
+		// exit status 1 on Windows means that Xray process was killed
+		// as we kill process to stop in on Windows, this is not an error
+		return ""
+	}
 	return result
 }
 
@@ -185,6 +200,7 @@ func (s *XrayService) RestartXray(isForce bool) error {
 	lock.Lock()
 	defer lock.Unlock()
 	logger.Debug("restart xray, force:", isForce)
+	isManuallyStopped.Store(false)
 
 	xrayConfig, err := s.GetXrayConfig()
 	if err != nil {
@@ -192,8 +208,8 @@ func (s *XrayService) RestartXray(isForce bool) error {
 	}
 
 	if s.IsXrayRunning() {
-		if !isForce && p.GetConfig().Equals(xrayConfig) {
-			logger.Debug("It does not need to restart xray")
+		if !isForce && p.GetConfig().Equals(xrayConfig) && !isNeedXrayRestart.Load() {
+			logger.Debug("It does not need to restart Xray")
 			return nil
 		}
 		p.Stop()
@@ -211,6 +227,7 @@ func (s *XrayService) RestartXray(isForce bool) error {
 func (s *XrayService) StopXray() error {
 	lock.Lock()
 	defer lock.Unlock()
+	isManuallyStopped.Store(true)
 	logger.Debug("Attempting to stop Xray...")
 	if s.IsXrayRunning() {
 		return p.Stop()
@@ -224,4 +241,8 @@ func (s *XrayService) SetToNeedRestart() {
 
 func (s *XrayService) IsNeedRestartAndSetFalse() bool {
 	return isNeedXrayRestart.CompareAndSwap(true, false)
+}
+
+func (s *XrayService) DidXrayCrash() bool {
+	return !s.IsXrayRunning() && !isManuallyStopped.Load()
 }

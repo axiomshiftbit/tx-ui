@@ -342,7 +342,6 @@ func (s *ServerService) StopXrayService() (string error) {
 }
 
 func (s *ServerService) RestartXrayService() (string error) {
-	s.xrayService.StopXray()
 	defer func() {
 		err := s.xrayService.RestartXray(true)
 		if err != nil {
