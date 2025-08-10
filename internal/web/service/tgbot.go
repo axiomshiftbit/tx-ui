@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"embed"
 	"errors"
 	"fmt"
@@ -182,8 +183,9 @@ func (t *Tgbot) SetHostname() {
 }
 
 func (t *Tgbot) Stop() {
-	botHandler.Stop()
-	bot.StopLongPolling()
+	if botHandler != nil {
+		botHandler.Stop()
+	}
 	logger.Info("Stop Telegram receiver ...")
 	isRunning = false
 	adminIds = nil
@@ -216,23 +218,26 @@ func (t *Tgbot) OnReceive() {
 		Timeout: 10,
 	}
 
-	updates, _ := bot.UpdatesViaLongPolling(&params)
+	updates, _ := bot.UpdatesViaLongPolling(context.Background(), &params)
 
 	botHandler, _ = th.NewBotHandler(bot, updates)
 
-	botHandler.HandleMessage(func(_ *telego.Bot, message telego.Message) {
+	botHandler.HandleMessage(func(ctx *th.Context, message telego.Message) error {
 		t.SendMsgToTgbot(message.Chat.ID, t.I18nBot("tgbot.keyboardClosed"), tu.ReplyKeyboardRemove())
+		return nil
 	}, th.TextEqual(t.I18nBot("tgbot.buttons.closeKeyboard")))
 
-	botHandler.HandleMessage(func(_ *telego.Bot, message telego.Message) {
+	botHandler.HandleMessage(func(ctx *th.Context, message telego.Message) error {
 		t.answerCommand(&message, message.Chat.ID, checkAdmin(message.From.ID))
+		return nil
 	}, th.AnyCommand())
 
-	botHandler.HandleCallbackQuery(func(_ *telego.Bot, query telego.CallbackQuery) {
+	botHandler.HandleCallbackQuery(func(ctx *th.Context, query telego.CallbackQuery) error {
 		t.answerCallback(&query, checkAdmin(query.From.ID))
+		return nil
 	}, th.AnyCallbackQueryWithMessage())
 
-	botHandler.HandleMessage(func(_ *telego.Bot, message telego.Message) {
+	botHandler.HandleMessage(func(ctx *th.Context, message telego.Message) error {
 		if message.UsersShared != nil {
 			if checkAdmin(message.From.ID) {
 				for _, sharedUser := range message.UsersShared.Users {
@@ -253,6 +258,7 @@ func (t *Tgbot) OnReceive() {
 				t.SendMsgToTgbot(message.Chat.ID, t.I18nBot("tgbot.noResult"), tu.ReplyKeyboardRemove())
 			}
 		}
+		return nil
 	}, th.AnyMessage())
 
 	botHandler.Start()
@@ -982,7 +988,7 @@ func (t *Tgbot) SendMsgToTgbot(chatId int64, msg string, replyMarkup ...telego.R
 		if len(replyMarkup) > 0 && n == (len(allMessages)-1) {
 			params.ReplyMarkup = replyMarkup[0]
 		}
-		_, err := bot.SendMessage(&params)
+		_, err := bot.SendMessage(context.Background(), &params)
 		if err != nil {
 			logger.Warning("Error sending telegram message :", err)
 		}
@@ -1752,7 +1758,7 @@ func (t *Tgbot) sendBackup(chatId int64) {
 			tu.ID(chatId),
 			tu.File(file),
 		)
-		_, err = bot.SendDocument(document)
+		_, err = bot.SendDocument(context.Background(), document)
 		if err != nil {
 			logger.Error("Error in uploading backup: ", err)
 		}
@@ -1766,7 +1772,7 @@ func (t *Tgbot) sendBackup(chatId int64) {
 			tu.ID(chatId),
 			tu.File(file),
 		)
-		_, err = bot.SendDocument(document)
+		_, err = bot.SendDocument(context.Background(), document)
 		if err != nil {
 			logger.Error("Error in uploading config.json: ", err)
 		}
@@ -1790,7 +1796,7 @@ func (t *Tgbot) sendBanLogs(chatId int64, dt bool) {
 				tu.ID(chatId),
 				tu.File(file),
 			)
-			_, err = bot.SendDocument(document)
+			_, err = bot.SendDocument(context.Background(), document)
 			if err != nil {
 				logger.Error("Error in uploading IPLimitBannedPrevLog: ", err)
 			}
@@ -1811,7 +1817,7 @@ func (t *Tgbot) sendBanLogs(chatId int64, dt bool) {
 				tu.ID(chatId),
 				tu.File(file),
 			)
-			_, err = bot.SendDocument(document)
+			_, err = bot.SendDocument(context.Background(), document)
 			if err != nil {
 				logger.Error("Error in uploading IPLimitBannedLog: ", err)
 			}
@@ -1829,7 +1835,7 @@ func (t *Tgbot) sendCallbackAnswerTgBot(id string, message string) {
 		CallbackQueryID: id,
 		Text:            message,
 	}
-	if err := bot.AnswerCallbackQuery(&params); err != nil {
+	if err := bot.AnswerCallbackQuery(context.Background(), &params); err != nil {
 		logger.Warning(err)
 	}
 }
@@ -1840,7 +1846,7 @@ func (t *Tgbot) editMessageCallbackTgBot(chatId int64, messageID int, inlineKeyb
 		MessageID:   messageID,
 		ReplyMarkup: inlineKeyboard,
 	}
-	if _, err := bot.EditMessageReplyMarkup(&params); err != nil {
+	if _, err := bot.EditMessageReplyMarkup(context.Background(), &params); err != nil {
 		logger.Warning(err)
 	}
 }
@@ -1855,7 +1861,7 @@ func (t *Tgbot) editMessageTgBot(chatId int64, messageID int, text string, inlin
 	if len(inlineKeyboard) > 0 {
 		params.ReplyMarkup = inlineKeyboard[0]
 	}
-	if _, err := bot.EditMessageText(&params); err != nil {
+	if _, err := bot.EditMessageText(context.Background(), &params); err != nil {
 		logger.Warning(err)
 	}
 }
