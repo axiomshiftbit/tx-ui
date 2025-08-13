@@ -276,12 +276,7 @@ func (s *Server) startTask() {
 	s.cron.AddJob("@daily", job.NewClearLogsJob())
 
 	// auto delete depleted clients
-	autoDeleteJob, err := s.settingService.GetAutoDeleteDay()
-	if err == nil && autoDeleteJob != 0 {
-		s.cron.AddJob(fmt.Sprintf("@every %dd", autoDeleteJob), job.NewAutoDeleteDepletedClientsJob())
-	} else {
-		logger.Debug("Auto delete depleted clients disabled")
-	}
+	s.cron.AddJob("@every 1h", job.NewAutoDeleteDepletedClientsJob())
 
 	// check for panel new version every 8h
 	s.cron.AddJob("@every 8h", job.NewUpdateCheckerJob())
