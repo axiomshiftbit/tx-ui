@@ -334,6 +334,23 @@
                             </a-col>
                           </a-row>
                         </a-list-item>
+                        <a-list-item style="padding: 10px 20px">
+                          <a-row>
+                            <a-col :lg="24" :xl="12">
+                              <a-list-item-meta title='Apply To'></a-list-item-meta>
+                            </a-col>
+                            <a-col :lg="24" :xl="12">
+                              <a-select :value="noise.applyTo" style="width: 100%"
+                                :dropdown-class-name="themeSwitcher.currentTheme"
+                                @change="(value) => updateNoiseApplyTo(index, value)">
+                                <a-select-option :value="p" :label="p" v-for="p in ['ip', 'ipv4', 'ipv6']"
+                                  :key="p">
+                                  [[ p ]]
+                                </a-select-option>
+                              </a-select>
+                            </a-col>
+                          </a-row>
+                        </a-list-item>
                         <setting-list-item style="padding: 10px 20px" type="text" title='Packet' :value="noise.packet"
                           @input="(value) => updateNoisePacket(index, value)" placeholder="5-10"></setting-list-item>
                         <setting-list-item style="padding: 10px 20px" type="text" title='Delay (ms)' :value="noise.delay"
@@ -479,7 +496,7 @@
         settings: {
           domainStrategy: "AsIs",
           noises: [
-            { type: "rand", packet: "10-20", delay: "10-16" },
+            { type: "rand", packet: "10-20", delay: "10-16", applyTo: "ip" },
           ],
         },
       },
@@ -656,7 +673,7 @@
         }
       },
       addNoise() {
-        const newNoise = { type: "rand", packet: "10-20", delay: "10-16" };
+        const newNoise = { type: "rand", packet: "10-20", delay: "10-16", applyTo: "ip" };
         this.noisesArray = [...this.noisesArray, newNoise];
       },
       removeNoise(index) {
@@ -664,6 +681,11 @@
         newNoises.splice(index, 1);
         this.noisesArray = newNoises;
       },
+    updateNoiseApplyTo(index, value) {
+        const updatedNoises = [...this.noisesArray];
+        updatedNoises[index] = { ...updatedNoises[index], applyTo: value };
+        this.noisesArray = updatedNoises;
+    },
       updateNoiseType(index, value) {
         const updatedNoises = [...this.noisesArray];
         updatedNoises[index] = { ...updatedNoises[index], type: value };
