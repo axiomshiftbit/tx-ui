@@ -515,6 +515,7 @@
 "xrayNotRunning" = "❗ Xray Core は動作していません。"
 
 [tgbot.messages]
+"enterClientInfo" = "次の形式でクライアント情報を入力してください: email:expire_days:limit_gb"
 "cpuThreshold" = "🔴 CPU使用率は{{ .Percent }}%、しきい値{{ .Threshold }}%を超えました"
 "selectUserFailed" = "❌ ユーザーの選択に失敗しました！"
 "userSaved" = "✅ Telegramユーザーが保存されました。"
@@ -562,6 +563,7 @@
 "no" = "❌ いいえ"
 
 [tgbot.buttons]
+"addClient" = "クライアントを追加"
 "closeKeyboard" = "❌ キーボードを閉じる"
 "cancel" = "❌ キャンセル"
 "cancelReset" = "❌ リセットをキャンセル"
@@ -596,6 +598,9 @@
 "allClients" = "すべてのクライアント"
 
 [tgbot.answers]
+"addClient" = "クライアントを追加"
+"addClientSuccess" = "クライアントが正常に追加されました"
+"addClientFailed" = "クライアントの追加に失敗しました"
 "successfulOperation" = "✅ 成功！"
 "errorOperation" = "❗ 操作エラー。"
 "getInboundsFailed" = "❌ インバウンド情報の取得に失敗しました。"

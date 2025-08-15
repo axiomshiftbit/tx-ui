@@ -532,6 +532,8 @@
 "xrayNotRunning" = "❗ Xray Core is not running."
 
 [tgbot.messages]
+"enterClientInfo" = "Please enter client info in the format: email:expire_days:limit_gb"
+"enterEmail" = "Please enter the client's email"
 "cpuThreshold" = "🔴 CPU Load {{ .Percent }}% exceeds the threshold of {{ .Threshold }}%"
 "selectUserFailed" = "❌ Error in user selection!"
 "userSaved" = "✅ Telegram User saved."
@@ -579,6 +581,7 @@
 "no" = "❌ No"
 
 [tgbot.buttons]
+"addClient" = "Add Client"
 "closeKeyboard" = "❌ Close Keyboard"
 "cancel" = "❌ Cancel"
 "cancelReset" = "❌ Cancel Reset"
@@ -613,6 +616,9 @@
 "allClients" = "All Clients"
 
 [tgbot.answers]
+"addClient" = "Add Client"
+"addClientSuccess" = "Client Added Successfully"
+"addClientFailed" = "Failed to Add Client"
 "successfulOperation" = "✅ Operation successful!"
 "errorOperation" = "❗ Error in operation."
 "getInboundsFailed" = "❌ Failed to get inbounds."

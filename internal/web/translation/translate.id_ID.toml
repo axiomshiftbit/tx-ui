@@ -531,6 +531,7 @@
 "xrayNotRunning" = "❗ Xray Core tidak berjalan."
 
 [tgbot.messages]
+"enterClientInfo" = "Silakan masukkan info klien dalam format: email:expire_days:limit_gb"
 "cpuThreshold" = "🔴 Beban CPU {{ .Percent }}% melebihi batas {{ .Threshold }}%"
 "selectUserFailed" = "❌ Kesalahan dalam pemilihan pengguna!"
 "userSaved" = "✅ Pengguna Telegram tersimpan."
@@ -578,6 +579,7 @@
 "no" = "❌ Tidak"
 
 [tgbot.buttons]
+"addClient" = "Tambah Klien"
 "closeKeyboard" = "❌ Tutup Papan Ketik"
 "cancel" = "❌ Batal"
 "cancelReset" = "❌ Batal Reset"
@@ -612,6 +614,9 @@
 "allClients" = "Semua Klien"
 
 [tgbot.answers]
+"addClient" = "Tambah Klien"
+"addClientSuccess" = "Klien Berhasil Ditambahkan"
+"addClientFailed" = "Gagal Menambahkan Klien"
 "successfulOperation" = "✅ Operasi berhasil!"
 "errorOperation" = "❗ Kesalahan dalam operasi."
 "getInboundsFailed" = "❌ Gagal mendapatkan inbounds."

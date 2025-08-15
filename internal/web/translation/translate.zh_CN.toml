@@ -527,6 +527,7 @@
 "xrayNotRunning" = "❗ Xray Core 未运行。"
 
 [tgbot.messages]
+"enterClientInfo" = "请输入客户端信息，格式为: email:expire_days:limit_gb"
 "cpuThreshold" = "🔴 CPU 使用率为 {{ .Percent }}%，超过阈值 {{ .Threshold }}%"
 "selectUserFailed" = "❌ 用户选择错误！"
 "userSaved" = "✅ 电报用户已保存。"
@@ -574,6 +575,7 @@
 "no" = "❌ 没有"
 
 [tgbot.buttons]
+"addClient" = "添加客户端"
 "closeKeyboard" = "❌ 关闭键盘"
 "cancel" = "❌ 取消"
 "cancelReset" = "❌ 取消重置"
@@ -608,6 +610,9 @@
 "allClients" = "所有客户"
 
 [tgbot.answers]
+"addClient" = "添加客户端"
+"addClientSuccess" = "客户端已成功添加"
+"addClientFailed" = "添加客户端失败"
 "successfulOperation" = "✅ 成功！"
 "errorOperation" = "❗ 操作错误。"
 "getInboundsFailed" = "❌ 获取入站信息失败。"

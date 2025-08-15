@@ -233,6 +233,31 @@ func (s *InboundService) AddInbound(inbound *model.Inbound) (*model.Inbound, boo
 	return inbound, needRestart, err
 }
 
+func (s *InboundService) AddClient(inboundId int, client *model.Client) (bool, error) {
+	inbound, err := s.GetInbound(inboundId)
+	if err != nil {
+		return false, err
+	}
+	clients, err := s.GetClients(inbound)
+	if err != nil {
+		return false, err
+	}
+	clients = append(clients, *client)
+	settings := make(map[string]interface{})
+	err = json.Unmarshal([]byte(inbound.Settings), &settings)
+	if err != nil {
+		return false, err
+	}
+	settings["clients"] = clients
+	newSettings, err := json.Marshal(settings)
+	if err != nil {
+		return false, err
+	}
+	inbound.Settings = string(newSettings)
+	_, needRestart, err := s.UpdateInbound(inbound)
+	return needRestart, err
+}
+
 func (s *InboundService) DelInbound(id int) (bool, error) {
 	db := database.GetDB()
 

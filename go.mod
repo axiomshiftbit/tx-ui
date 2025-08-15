@@ -7,6 +7,7 @@ require (
 	github.com/gin-contrib/sessions v1.0.4
 	github.com/gin-gonic/gin v1.10.1
 	github.com/goccy/go-json v0.10.5
+	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/mymmrac/telego v1.2.0
 	github.com/nicksnyder/go-i18n/v2 v2.6.0

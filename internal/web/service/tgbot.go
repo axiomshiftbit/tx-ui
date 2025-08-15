@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"embed"
 	"errors"
 	"fmt"
@@ -11,6 +13,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
+	"x-ui/internal/util/random"
 
 	"x-ui/config"
 	"x-ui/internal/database"
@@ -35,6 +40,7 @@ var (
 	isRunning   bool
 	hostname    string
 	hashStorage *global.HashStorage
+	pendingAddClient = make(map[int64]int)
 )
 
 type LoginStatus byte
@@ -231,6 +237,63 @@ func (t *Tgbot) OnReceive() {
 		t.answerCommand(&message, message.Chat.ID, checkAdmin(message.From.ID))
 		return nil
 	}, th.AnyCommand())
+
+	botHandler.HandleMessage(func(ctx *th.Context, message telego.Message) error {
+		chatId := message.Chat.ID
+		inboundId, exists := pendingAddClient[chatId]
+		if exists {
+			parts := strings.Split(message.Text, ":")
+			if len(parts) != 3 {
+				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.messages.enterClientInfo"))
+				return nil
+			}
+			email := parts[0]
+			expireDays, _ := strconv.Atoi(parts[1])
+			limitGb, _ := strconv.Atoi(parts[2])
+
+			inbound, err := t.inboundService.GetInbound(inboundId)
+			if err != nil {
+				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.answers.addClientFailed"))
+				return nil
+			}
+
+			client := &model.Client{
+				Email:      email,
+				ExpiryTime: time.Now().AddDate(0, 0, expireDays).Unix() * 1000,
+				TotalGB:    int64(limitGb) * 1024 * 1024 * 1024,
+				Enable:     true,
+				SubID:      random.Seq(16),
+				Security:   "auto",
+				LimitIP:    0,
+				TgID:       0,
+				Comment:    "",
+				Reset:      0,
+			}
+
+			if inbound.Protocol == "shadowsocks" {
+				bytes := make([]byte, 32)
+				rand.Read(bytes)
+				client.Password = base64.StdEncoding.EncodeToString(bytes)
+			} else if inbound.Protocol == "trojan" {
+				client.Password = random.Seq(10)
+			} else {
+				client.ID = uuid.New().String()
+			}
+
+			needRestart, err := t.inboundService.AddClient(inboundId, client)
+			if err != nil {
+				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.answers.addClientFailed"))
+			} else {
+				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.answers.addClientSuccess"))
+			}
+			if needRestart {
+				t.xrayService.SetToNeedRestart()
+			}
+			delete(pendingAddClient, chatId)
+			return nil
+		}
+		return nil
+	}, th.AnyMessage())
 
 	botHandler.HandleCallbackQuery(func(ctx *th.Context, query telego.CallbackQuery) error {
 		t.answerCallback(&query, checkAdmin(query.From.ID))
@@ -843,7 +906,13 @@ func (t *Tgbot) answerCallback(callbackQuery *telego.CallbackQuery, isAdmin bool
 					t.sendCallbackAnswerTgBot(callbackQuery.ID, err.Error())
 					return
 				}
-				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.answers.chooseClient", "Inbound=="+inbound.Remark), clients)
+									t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.answers.chooseClient", "Inbound=="+inbound.Remark), clients)
+			case "add_client":
+				inboundId, _ := strconv.Atoi(dataArray[1])
+				t.sendCallbackAnswerTgBot(callbackQuery.ID, t.I18nBot("tgbot.answers.addClient"))
+				t.SendMsgToTgbot(chatId, t.I18nBot("tgbot.messages.enterClientInfo"))
+				pendingAddClient[chatId] = inboundId
+
 
 			}
 			return
@@ -1223,9 +1292,8 @@ func (t *Tgbot) getInboundClients(id int) (*telego.InlineKeyboardMarkup, error) 
 				buttons = append(buttons, tu.InlineKeyboardButton(client.Email).WithCallbackData(t.encodeQuery("client_get_usage "+client.Email)))
 			}
 
-		} else {
-			return nil, errors.New(t.I18nBot("tgbot.answers.getClientsFailed"))
 		}
+		buttons = append(buttons, tu.InlineKeyboardButton(t.I18nBot("tgbot.buttons.addClient")).WithCallbackData(t.encodeQuery("add_client "+strconv.Itoa(id))))
 
 	}
 	cols := 0

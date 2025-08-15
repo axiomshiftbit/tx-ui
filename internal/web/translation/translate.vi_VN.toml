@@ -527,6 +527,7 @@
 "xrayNotRunning" = "❗ Xray Core không chạy."
 
 [tgbot.messages]
+"enterClientInfo" = "Vui lòng nhập thông tin khách hàng theo định dạng: email:expire_days:limit_gb"
 "cpuThreshold" = "🔴 Sử dụng CPU {{ .Percent }}% vượt quá ngưỡng {{ .Threshold }}%"
 "selectUserFailed" = "❌ Lỗi khi chọn người dùng!"
 "userSaved" = "✅ Người dùng Telegram đã được lưu."
@@ -574,6 +575,7 @@
 "no" = "❌ Không"
 
 [tgbot.buttons]
+"addClient" = "Thêm khách hàng"
 "closeKeyboard" = "❌ Đóng Bàn Phím"
 "cancel" = "❌ Hủy"
 "cancelReset" = "❌ Hủy Đặt Lại"
@@ -608,6 +610,9 @@
 "allClients" = "Tất cả Khách hàng"
 
 [tgbot.answers]
+"addClient" = "Thêm khách hàng"
+"addClientSuccess" = "Đã thêm khách hàng thành công"
+"addClientFailed" = "Không thể thêm khách hàng"
 "successfulOperation" = "✅ Thành công!"
 "errorOperation" = "❗ Lỗi Trong Quá Trình Thực Hiện."
 "getInboundsFailed" = "❌ Không Thể Lấy Được Inbounds"

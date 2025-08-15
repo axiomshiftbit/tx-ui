@@ -527,6 +527,7 @@
 "xrayNotRunning" = "❗ Xray Core çalışmıyor."
 
 [tgbot.messages]
+"enterClientInfo" = "Lütfen müşteri bilgilerini şu formatta girin: email:expire_days:limit_gb"
 "cpuThreshold" = "🔴 CPU Yükü {{ .Percent }}% eşiği {{ .Threshold }}%'yi aşıyor"
 "selectUserFailed" = "❌ Kullanıcı seçiminde hata!"
 "userSaved" = "✅ Telegram Kullanıcısı kaydedildi."
@@ -574,6 +575,7 @@
 "no" = "❌ Hayır"
 
 [tgbot.buttons]
+"addClient" = "Müşteri Ekle"
 "closeKeyboard" = "❌ Klavyeyi Kapat"
 "cancel" = "❌ İptal"
 "cancelReset" = "❌ Sıfırlamayı İptal Et"
@@ -608,6 +610,9 @@
 "allClients" = "Tüm Müşteriler"
 
 [tgbot.answers]
+"addClient" = "Müşteri Ekle"
+"addClientSuccess" = "Müşteri Başarıyla Eklendi"
+"addClientFailed" = "Müşteri Eklenemedi"
 "successfulOperation" = "✅ İşlem başarılı!"
 "errorOperation" = "❗ İşlemde hata."
 "getInboundsFailed" = "❌ Gelenler alınamadı."
