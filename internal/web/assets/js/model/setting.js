@@ -35,7 +35,7 @@ class AllSetting {
         this.subCertFile = "";
         this.subKeyFile = "";
         this.subUpdates = 12;
-        this.subEncrypt = true;
+        this.subEncrypt = false;
         this.subCustomUI = false;
         this.subShowInfo = true;
         this.subURI = "";
