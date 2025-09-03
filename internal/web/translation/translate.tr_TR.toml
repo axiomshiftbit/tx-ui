@@ -52,6 +52,8 @@
 "usage" = "Kullanım"
 "secretToken" = "Gizli Anahtar"
 "remained" = "Kalan"
+"default" = "varsayılan"
+"alphabet" = "Alfabetik"
 "security" = "Güvenlik"
 "secAlertTitle" = "Güvenlik Uyarısı"
 "secAlertSsl" = "Bu bağlantı güvenli değil. Verilerin korunması için TLS etkinleştirilene kadar hassas bilgiler girmekten kaçının."

@@ -52,6 +52,8 @@
 "usage" = "使用情況"
 "secretToken" = "安全金鑰"
 "remained" = "剩餘"
+"default" = "預設"
+"alphabet" = "按字母順序"
 "security" = "安全"
 "secAlertTitle" = "安全警報"
 "secAlertSsl" = "此連線不安全。在啟用 TLS 進行資料保護之前，請勿輸入敏感資訊。"

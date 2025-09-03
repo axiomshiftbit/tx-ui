@@ -40,6 +40,8 @@
 "usage" = "利用状況"
 "secretToken" = "シークレットトークン"
 "remained" = "残り"
+"default" = "デフォルト"
+"alphabet" = "アルファベット順"
 "security" = "セキュリティ"
 "secAlertTitle" = "セキュリティアラート"
 "secAlertSsl" = "この接続は安全ではありません。TLSを有効にしてデータ保護を行うまで、機密情報を入力しないでください。"

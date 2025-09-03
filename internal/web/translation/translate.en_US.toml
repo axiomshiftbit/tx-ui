@@ -53,6 +53,8 @@
 "usage" = "Usage"
 "secretToken" = "Secret Token"
 "remained" = "Remained"
+"default" = "Default"
+"alphabet" = "Alphabetically"
 "security" = "Security"
 "secAlertTitle" = "Security Alert"
 "secAlertSsl" = "This connection is not secure. Please avoid entering sensitive information until TLS is activated for data protection."

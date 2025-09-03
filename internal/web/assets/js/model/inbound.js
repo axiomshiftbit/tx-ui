@@ -1191,6 +1191,11 @@ class Inbound extends XrayCommonClass {
     }
 
     isExpiry(index) {
+        console.log("isExpiry called with index:", index);
+        console.log("this.clients:", this.clients);
+        if (!this.clients || index < 0 || index >= this.clients.length || !this.clients[index]) {
+            return false;
+        }
         let exp = this.clients[index].expiryTime;
         return exp > 0 ? exp < new Date().getTime() : false;
     }
@@ -1603,6 +1608,9 @@ class Inbound extends XrayCommonClass {
     }
 
     genLink(address = '', port = this.port, forceTls = 'same', remark = '', client) {
+        if (!client) {
+            return '';
+        }
         switch (this.protocol) {
             case Protocols.VMESS:
                 return this.genVmessLink(address, port, forceTls, remark, client.id, client.security);
@@ -1617,6 +1625,9 @@ class Inbound extends XrayCommonClass {
     }
 
     genAllLinks(remark = '', remarkModel = '-ieo', client) {
+        if (!client) {
+            return [];
+        }
         let result = [];
         let email = client ? client.email : '';
         let addr = !ObjectUtil.isEmpty(this.listen) && this.listen !== "0.0.0.0" ? this.listen : location.hostname;
@@ -1766,9 +1777,13 @@ Inbound.VmessSettings = class extends Inbound.Settings {
     }
 
     static fromJson(json = {}) {
+        let clients = [];
+        if (Array.isArray(json.clients)) {
+            clients = json.clients.map(client => Inbound.VmessSettings.VMESS.fromJson(client));
+        }
         return new Inbound.VmessSettings(
             Protocols.VMESS,
-            json.clients.map(client => Inbound.VmessSettings.VMESS.fromJson(client)),
+            clients,
         );
     }
 
@@ -1872,9 +1887,13 @@ Inbound.VLESSSettings = class extends Inbound.Settings {
 
     // decryption should be set to static value
     static fromJson(json = {}) {
+        let clients = [];
+        if (Array.isArray(json.clients)) {
+            clients = json.clients.map(client => Inbound.VLESSSettings.VLESS.fromJson(client));
+        }
         return new Inbound.VLESSSettings(
             Protocols.VLESS,
-            json.clients.map(client => Inbound.VLESSSettings.VLESS.fromJson(client)),
+            clients,
             json.decryption || 'none',
             Inbound.VLESSSettings.Fallback.fromJson(json.fallbacks),);
     }
@@ -2014,9 +2033,13 @@ Inbound.TrojanSettings = class extends Inbound.Settings {
     }
 
     static fromJson(json = {}) {
+        let clients = [];
+        if (Array.isArray(json.clients)) {
+            clients = json.clients.map(client => Inbound.TrojanSettings.Trojan.fromJson(client));
+        }
         return new Inbound.TrojanSettings(
             Protocols.TROJAN,
-            json.clients.map(client => Inbound.TrojanSettings.Trojan.fromJson(client)),
+            clients,
             Inbound.TrojanSettings.Fallback.fromJson(json.fallbacks),);
     }
 

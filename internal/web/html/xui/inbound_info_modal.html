@@ -474,13 +474,19 @@
     subLink: '',
     subJsonLink: '',
     clientIps: '',
-    show(dbInbound, index) {
-      this.index = index;
+    show(dbInbound, client) {
       this.inbound = dbInbound.toInbound();
       this.dbInbound = new DBInbound(dbInbound);
-      this.clientSettings = this.inbound.clients ? this.inbound.clients[index] : null;
-      this.isExpired = this.inbound.clients ? this.inbound.isExpiry(index) : this.dbInbound.isExpiry;
-      this.clientStats = this.inbound.clients ? this.dbInbound.clientStats.find(row => row.email === this.clientSettings.email) : [];
+      this.clientSettings = client;
+      if (client) {
+        const clientIndex = this.inbound.clients.findIndex(c => c.email === client.email);
+        this.isExpired = this.inbound.isExpiry(clientIndex);
+        this.clientStats = this.dbInbound.clientStats.find(row => row.email === this.clientSettings.email);
+      } else {
+        this.isExpired = this.dbInbound.isExpiry;
+        this.clientStats = [];
+      }
+
 
       if (app.ipLimitEnable && this.clientSettings) {
         this.clientSettings.limitIp = this.clientSettings.limitIp || '';

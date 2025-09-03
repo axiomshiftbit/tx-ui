@@ -53,6 +53,8 @@
 "usage" = "استخدام"
 "secretToken" = "توكن سري"
 "remained" = "المتبقي"
+"default" = "افتراضي"
+"alphabet" = "الأبجدية"
 "security" = "أمان"
 "secAlertTitle" = "تنبيه أمني"
 "secAlertSsl" = "الاتصال ده مش آمن. ابعد عن إدخال معلومات حساسة لغاية ما تشغل TLS لحماية البيانات."

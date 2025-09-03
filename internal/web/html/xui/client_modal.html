@@ -21,7 +21,8 @@
         clients: [],
         clientStats: [],
         oldClientId: "",
-        index: null,
+        client: null,
+        oldClientId: "",
         clientIps: null,
         delayedStart: false,
         ok() {
@@ -31,7 +32,7 @@
                 ObjectUtil.execute(clientModal.confirm, clientModalApp.client, clientModal.dbInbound.id);
             }
         },
-        show({ title = '', okText = '{{ i18n "sure" }}', index = null, dbInbound = null, confirm = () => { }, isEdit = false }) {
+        show({ title = '', okText = '{{ i18n "sure" }}', client = null, dbInbound = null, confirm = () => { }, isEdit = false }) {
             this.visible = true;
             this.title = title;
             this.okText = okText;
@@ -39,17 +40,17 @@
             this.dbInbound = new DBInbound(dbInbound);
             this.inbound = dbInbound.toInbound();
             this.clients = this.inbound.clients;
-            this.index = index === null ? this.clients.length : index;
+            this.client = client;
             this.delayedStart = false;
             if (isEdit) {
-                if (this.clients[index].expiryTime < 0) {
+                if (this.client.expiryTime < 0) {
                     this.delayedStart = true;
                 }
-                this.oldClientId = this.getClientId(dbInbound.protocol, clients[index]);
+                this.oldClientId = this.getClientId(dbInbound.protocol, client);
             } else {
-                this.addClient(this.inbound.protocol, this.clients);
+                this.client = this.addClient(this.inbound.protocol, this.clients);
             }
-            this.clientStats = this.dbInbound.clientStats.find(row => row.email === this.clients[this.index].email);
+            this.clientStats = this.dbInbound.clientStats.find(row => row.email === this.client.email);
             this.confirm = confirm;
         },  
         getClientId(protocol, client) {
@@ -60,12 +61,26 @@
             }
         },
         addClient(protocol, clients) {
+            let newClient;
             switch (protocol) {
-                case Protocols.VMESS: return clients.push(new Inbound.VmessSettings.VMESS());
-                case Protocols.VLESS: return clients.push(new Inbound.VLESSSettings.VLESS());
-                case Protocols.TROJAN: return clients.push(new Inbound.TrojanSettings.Trojan());
-                case Protocols.SHADOWSOCKS: return clients.push(new Inbound.ShadowsocksSettings.Shadowsocks(clients[0].method));
-                default: return null;
+                case Protocols.VMESS:
+                    newClient = new Inbound.VmessSettings.VMESS();
+                    clients.push(newClient);
+                    return newClient;
+                case Protocols.VLESS:
+                    newClient = new Inbound.VLESSSettings.VLESS();
+                    clients.push(newClient);
+                    return newClient;
+                case Protocols.TROJAN:
+                    newClient = new Inbound.TrojanSettings.Trojan();
+                    clients.push(newClient);
+                    return newClient;
+                case Protocols.SHADOWSOCKS:
+                    newClient = new Inbound.ShadowsocksSettings.Shadowsocks(clients[0].method);
+                    clients.push(newClient);
+                    return newClient;
+                default:
+                    return null;
             }
         },
         close() {
@@ -86,7 +101,7 @@
                 return this.clientModal.inbound;
             },
             get client() {
-                return this.clientModal.clients[this.clientModal.index];
+                return this.clientModal.client;
             },
             get clientStats() {
                 return this.clientModal.clientStats;
