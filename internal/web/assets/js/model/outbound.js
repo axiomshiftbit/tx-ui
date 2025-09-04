@@ -991,7 +991,7 @@ Outbound.DNSSettings = class extends CommonClass {
         network = 'udp',
         address = '',
         port = 53,
-        nonIPQuery = 'drop',
+        nonIPQuery = 'reject',
         blockTypes = []
     ) {
         super();
