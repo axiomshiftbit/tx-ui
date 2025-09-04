@@ -1157,7 +1157,7 @@
             },
             checkFallback(dbInbound) {
                 newDbInbound = new DBInbound(dbInbound);
-                if (dbInbound.listen.startsWith("@ المحتوى")){
+                if (dbInbound.listen.startsWith("@")){
                     rootInbound = this.inbounds.find((i) => 
                         i.isTcp && 
                         ['trojan','vless'].includes(i.protocol) &&
