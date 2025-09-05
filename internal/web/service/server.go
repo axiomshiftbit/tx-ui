@@ -259,24 +259,19 @@ func (s *ServerService) GetStatus(lastStatus *Status) *Status {
 	return status
 }
 
-func normalizeVersion(tag string) string {
-	re := regexp.MustCompile(`\.0$`)    // Match trailing ".0"
-	return re.ReplaceAllString(tag, "") // Remove it
-}
-
 func (s *ServerService) CheckForUpdate(owner, repo, currentVersion string) (bool, string, error) {
 	g := &latest.GithubTag{
 		Owner:      owner,
 		Repository: repo,
 	}
 
-	res, err := latest.Check(g, currentVersion)
+	res, err := latest.Check(g, strings.TrimPrefix(currentVersion, "v"))
 	if err != nil {
 		checkErr = err
 	}
 
 	isOutdated = res.Outdated
-	latestVersion = normalizeVersion(res.Current)
+	latestVersion = strings.TrimPrefix(res.Current, "v")
 	if isOutdated {
 		logger.Info("A new version is available: ", latestVersion)
 	} else {
