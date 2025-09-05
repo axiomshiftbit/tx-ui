@@ -229,7 +229,7 @@
                 </a-col>
                 <a-col :xs="12" :sm="12" :lg="12" style="text-align: right;">
                   <a-dropdown :trigger="['click']">
-                    <a-button type="primary" icon="sort-ascending">{{ i18n "sort" }}</a-button>
+                    <a-button type="primary" icon="sort-ascending"></a-button>
                     <a-menu slot="overlay" @click="a => sortClients(a.key)" :theme="themeSwitcher.currentTheme" :selected-keys="[clientSortBy]">
                       <a-menu-item key="default">{{ i18n "default" }}</a-menu-item>
                       <a-menu-item key="alphabet">{{ i18n "alphabet" }}</a-menu-item>
