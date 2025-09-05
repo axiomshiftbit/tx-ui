@@ -226,18 +226,18 @@
                       </a-menu-item>
                     </a-menu>
                   </a-dropdown>
+                    <a-dropdown :trigger="['click']">
+                        <a-button type="primary" icon="sort-ascending"></a-button>
+                        <a-menu slot="overlay" @click="a => sortClients(a.key)" :theme="themeSwitcher.currentTheme" :selected-keys="[clientSortBy]">
+                            <a-menu-item key="default">{{ i18n "default" }}</a-menu-item>
+                            <a-menu-item key="alphabet">{{ i18n "alphabet" }}</a-menu-item>
+                            <a-menu-item key="remainingTime">{{ i18n "remained" }}</a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
                 </a-col>
                 <a-col :xs="12" :sm="12" :lg="12" style="text-align: right;">
-                  <a-dropdown :trigger="['click']">
-                    <a-button type="primary" icon="sort-ascending"></a-button>
-                    <a-menu slot="overlay" @click="a => sortClients(a.key)" :theme="themeSwitcher.currentTheme" :selected-keys="[clientSortBy]">
-                      <a-menu-item key="default">{{ i18n "default" }}</a-menu-item>
-                      <a-menu-item key="alphabet">{{ i18n "alphabet" }}</a-menu-item>
-                      <a-menu-item key="remainingTime">{{ i18n "remained" }}</a-menu-item>
-                    </a-menu>
-                  </a-dropdown>
                   <a-select v-model="refreshInterval"
-                      style="width: 65px; margin-left: 5px;"
+                      style="width: 65px;"
                       v-if="isRefreshEnabled"
                       @change="changeRefreshInterval"
                       :dropdown-class-name="themeSwitcher.currentTheme">
