@@ -140,7 +140,7 @@
               <a-col :sm="24" :lg="12">
                 <a-card hoverable>
                   <a-row>
-                    <a-col :span="12">
+                    <a-col :span="isMobile ? 24 : 12" :style="isMobile ? 'margin-bottom: 10px;' : ''">
                       <b>{{ i18n "pages.index.systemLoad" }}:</b>
                       <a-tag color="green">
                         <a-tooltip>
@@ -151,7 +151,7 @@
                         </a-tooltip>
                       </a-tag>
                     </a-col>
-                    <a-col :span="12">
+                    <a-col :span="isMobile ? 24 : 12">
                       <b>{{ i18n "pages.index.systemHost" }}:</b>
                       <a-tag color="green">[[ status.hostName ]]</a-tag>
                     </a-col>
@@ -168,7 +168,7 @@
               <a-col :sm="24" :lg="12">
                 <a-card hoverable>
                   <a-row>
-                    <a-col :span="12">
+                    <a-col :span="isMobile ? 24 : 12" :style="isMobile ? 'margin-bottom: 10px;' : ''">
                       <a-tag>
                         <a-tooltip>
                           <a-icon type="global"></a-icon> IPv4: [[ status.publicIP.ipv4 ]]
@@ -178,7 +178,7 @@
                         </a-tooltip>
                       </a-tag>
                     </a-col>
-                    <a-col :span="12">
+                    <a-col :span="isMobile ? 24 : 12">
                       <a-tag>
                         <a-tooltip>
                           <a-icon type="global"></a-icon> IPv6: [[ status.publicIP.ipv6 ]]
@@ -643,11 +643,15 @@ ${dateTime}
             showAlert: false,
             showIp: false,
             ipLimitEnable: false,
+            isMobile: window.innerWidth <= 768,
         },
         methods: {
             loading(spinning, tip = '{{ i18n "loading"}}') {
                 this.spinning = spinning;
                 this.loadingTip = tip;
+            },
+            onResize() {
+                this.isMobile = window.innerWidth <= 768;
             },
             async getStatus() {
                 try {
@@ -787,6 +791,7 @@ ${dateTime}
             },
         },
         async mounted() {
+            window.addEventListener('resize', this.onResize);
             if (window.location.protocol !== "https:") {
                 this.showAlert = true;
             }
@@ -804,6 +809,9 @@ ${dateTime}
                 }
                 await PromiseUtil.sleep(2000);
             }
+        },
+        beforeDestroy() {
+            window.removeEventListener('resize', this.onResize);
         },
     });
 </script>
