@@ -1192,7 +1192,6 @@
             },
             async switchEnableClient(dbInboundId, client) {
                 this.loading()
-                client.enable = !client.enable;
                 const clientId = this.getClientId(this.dbInbounds.find(row => row.id === dbInboundId).protocol, client);
                 await this.updateClient(client, dbInboundId, clientId);
                 this.loading(false);
