@@ -358,8 +358,8 @@
             </a-select>
           </a-input-group>
         </a-form-item>
-        <a-form-item label="Filter:">
-          <a-input size="small" v-model="xraylogModal.filter" @keyup.enter="openXrayLogs()"></a-input>
+        <a-form-item>
+          <a-input size="small" v-model="xraylogModal.filter" @keyup.enter="openXrayLogs()" placeholder='{{ i18n "filter" }}'></a-input>
         </a-form-item>
         <a-form-item>
           <a-checkbox v-model="xraylogModal.showDirect" @change="openXrayLogs()">Direct</a-checkbox>
