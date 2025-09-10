@@ -6,8 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/tcnksm/go-latest"
-	"golang.org/x/crypto/ssh"
 	"io"
 	"io/fs"
 	"mime/multipart"
@@ -19,6 +17,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/tcnksm/go-latest"
+	"golang.org/x/crypto/ssh"
 
 	"x-ui/config"
 	"x-ui/internal/database"
@@ -318,7 +319,7 @@ func (s *ServerService) GetXrayVersions() ([]string, error) {
 			continue
 		}
 
-		if major > 25 || (major == 25 && minor > 6) || (major == 25 && minor == 6 && patch >= 8) {
+		if major > 25 || (major == 25 && minor > 9) || (major == 25 && minor == 9 && patch >= 10) {
 			versions = append(versions, release.TagName)
 		}
 	}
