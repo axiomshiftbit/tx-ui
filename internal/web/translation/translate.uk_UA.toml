@@ -216,6 +216,7 @@
 [pages.inbounds.toasts]
 "obtain" = "Отримати"
 "getNewmldsa65Error" = "Помилка при отриманні сертифіката mldsa65."
+"getNewVlessEncError" = "Помилка при отриманні сертифіката VlessEnc."
 
 [pages.inbounds.stream.general]
 "request" = "Запит"

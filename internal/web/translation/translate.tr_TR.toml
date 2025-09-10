@@ -216,6 +216,7 @@
 [pages.inbounds.toasts]
 "obtain" = "Elde Et"
 "getNewmldsa65Error" = "mldsa65 sertifikası alınırken hata oluştu."
+"getNewVlessEncError" = "VlessEnc sertifikası alınırken hata oluştu."
 
 [pages.inbounds.stream.general]
 "request" = "İstek"

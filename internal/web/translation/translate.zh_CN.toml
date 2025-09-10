@@ -216,6 +216,7 @@
 [pages.inbounds.toasts]
 "obtain" = "获取"
 "getNewmldsa65Error" = "获取mldsa65证书时出错。"
+"getNewVlessEncError" = "获取VlessEnc证书时出错。"
 
 [pages.inbounds.stream.general]
 "request" = "请求"

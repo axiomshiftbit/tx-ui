@@ -216,6 +216,7 @@
 [pages.inbounds.toasts]
 "obtain" = "Dapatkan"
 "getNewmldsa65Error" = "Terjadi kesalahan saat mendapatkan sertifikat mldsa65."
+"getNewVlessEncError" = "Terjadi kesalahan saat mendapatkan sertifikat VlessEnc."
 
 [pages.inbounds.stream.general]
 "request" = "Permintaan"
