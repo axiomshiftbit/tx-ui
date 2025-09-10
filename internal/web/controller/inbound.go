@@ -39,6 +39,7 @@ func (a *InboundController) initRouter(g *gin.RouterGroup) {
 	g.POST("/resetAllTraffics", a.resetAllTraffics)
 	g.POST("/resetAllClientTraffics/:id", a.resetAllClientTraffics)
 	g.POST("/delDepletedClients/:id", a.delDepletedClients)
+	g.POST("/:id/delClientByEmail/:email", a.delInboundClientByEmail)
 	g.POST("/import", a.importInbound)
 	g.POST("/onlines", a.onlines)
 	g.POST("/depleted", a.depleted)
@@ -371,4 +372,24 @@ func (a *InboundController) updateClientTraffic(c *gin.Context) {
 	}
 
 	jsonMsg(c, I18nWeb(c, "pages.inbounds.update"), nil)
+}
+
+func (a *InboundController) delInboundClientByEmail(c *gin.Context) {
+	inboundId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		jsonMsg(c, "Invalid inbound ID", err)
+		return
+	}
+
+	email := c.Param("email")
+	needRestart, err := a.inboundService.DelInboundClientByEmail(inboundId, email)
+	if err != nil {
+		jsonMsg(c, "Failed to delete client by email", err)
+		return
+	}
+
+	jsonMsg(c, "Client deleted successfully", nil)
+	if needRestart {
+		a.xrayService.SetToNeedRestart()
+	}
 }
