@@ -8,6 +8,7 @@ type XUIController struct {
 	BaseController
 
 	inboundController     *InboundController
+	ServerController      *ServerController
 	settingController     *SettingController
 	xraySettingController *XraySettingController
 }
@@ -28,6 +29,7 @@ func (a *XUIController) initRouter(g *gin.RouterGroup) {
 	g.GET("/xray", a.xraySettings)
 
 	a.inboundController = NewInboundController(g)
+	a.ServerController = NewServerController(g)
 	a.settingController = NewSettingController(g)
 	a.xraySettingController = NewXraySettingController(g)
 }

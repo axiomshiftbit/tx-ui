@@ -24,9 +24,11 @@ func NewInboundController(g *gin.RouterGroup) *InboundController {
 }
 
 func (a *InboundController) initRouter(g *gin.RouterGroup) {
-	g = g.Group("/inbound")
-
-	g.POST("/list", a.getInbounds)
+	g.GET("/list", a.getInbounds)
+	g.GET("/get/:id", a.getInbound)
+	g.GET("/getClientTraffics/:email", a.getClientTraffics)
+	g.GET("/getClientTrafficsById/:id", a.getClientTrafficsById)
+	g.POST("/updateClientTraffic/:email", a.updateClientTraffic)
 	g.POST("/add", a.addInbound)
 	g.POST("/del/:id", a.delInbound)
 	g.POST("/update/:id", a.updateInbound)
