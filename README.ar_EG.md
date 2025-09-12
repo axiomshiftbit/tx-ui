@@ -488,7 +488,7 @@ location /sub {
 | الطريقة | المسار             | الإجراء            |
 |:------:|------------------|-------------------|
 | `GET`  | `"/status"`      | الحصول على حالة الخادم |
-| `GET`  | `"/restartCore"` | إعادة تشغيل xray-core |
+| `GET`  | `"/restartXrayService"` | إعادة تشغيل xray-core |
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/5146551-dda3cab3-0e33-485f-96f9-d4262f437ac5?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D5146551-dda3cab3-0e33-485f-96f9-d4262f437ac5%26entityType%3Dcollection%26workspaceId%3Dd64f609f-485a-4951-9b8f-876b3f917124)
 
