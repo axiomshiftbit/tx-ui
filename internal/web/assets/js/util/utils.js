@@ -289,6 +289,14 @@ class ObjectUtil {
                 return false;
             }
         }
+        for (const key in b) {
+            if (!b.hasOwnProperty(key)) {
+                continue;
+            }
+            if (!a.hasOwnProperty(key)) {
+                return false;
+            }
+        }
         return true;
     }
 }
